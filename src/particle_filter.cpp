@@ -21,7 +21,7 @@
 using std::string;
 using std::vector;
 
-const int NUM_PARTICLES = 100;
+const int NUM_PARTICLES = 20;
 std::default_random_engine gen;
 
 void ParticleFilter::init(double x, double y, double theta, double std[])
@@ -36,9 +36,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[])
    */
 
   if (is_initialized)
-  {
     return;
-  }
 
   num_particles = NUM_PARTICLES; // TODO: Set the number of particles
 
@@ -198,8 +196,14 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
         double dist_y = vehicle_view_observation.y - landmark_y;
 
         double weight = (1 / (2 * M_PI * std_landmark_range * std_landmark_bearing)) * exp(-(dist_x * dist_x / (2 * std_landmark_range * std_landmark_range) + (dist_y * dist_y / (2 * std_landmark_bearing * std_landmark_bearing))));
-        if (weight == 0) { particle.weight *= 0.00001; }
-        else { particle.weight *= weight; }
+        if (weight == 0)
+        {
+          particle.weight *= 0.00001;
+        }
+        else
+        {
+          particle.weight *= weight;
+        }
       }
     }
   }
